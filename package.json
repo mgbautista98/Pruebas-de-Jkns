@@ -1,0 +1,14 @@
+{
+  "name": "jira-comentario-diario",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Automatizacion local para publicar un comentario diario en Jira.",
+  "type": "commonjs",
+  "scripts": {
+    "auth": "node scripts/save-session.js",
+    "comment": "node scripts/post-daily-comment.js"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
