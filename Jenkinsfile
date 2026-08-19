@@ -12,9 +12,9 @@ pipeline {
       }
     }
 
-    stage('Run comment') {
+    stage('Verify session') {
       steps {
-        sh 'npm run comment'
+        sh 'npm run verify'
       }
     }
   }

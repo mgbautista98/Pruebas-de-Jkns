@@ -11,7 +11,7 @@ function waitForEnter() {
   });
 
   return new Promise((resolve) => {
-    rl.question("Cuando hayas iniciado sesion y veas el board, presiona Enter: ", () => {
+    rl.question("Cuando hayas iniciado sesion y veas Atenea, presiona Enter: ", () => {
       rl.close();
       resolve();
     });
@@ -26,8 +26,8 @@ async function main() {
   const context = await browser.newContext();
   const page = await context.newPage();
 
-  console.log(`Abriendo ${config.boardUrl}`);
-  await page.goto(config.boardUrl, { waitUntil: "domcontentloaded" });
+  console.log(`Abriendo ${config.loginUrl}`);
+  await page.goto(config.loginUrl, { waitUntil: "domcontentloaded" });
   await waitForEnter();
 
   await context.storageState({ path: config.authFile });

@@ -1,14 +1,13 @@
-# Jira Comentario Diario
+# Atenea Login Session
 
-Proyecto local para publicar un comentario diario en Jira sin depender de `rehus-selenium-qa`.
+Proyecto local para guardar y validar una sesion autenticada en Atenea Conocimientos usando Playwright.
 
 ## Que hace
 
-- Reutiliza una sesion autenticada de Jira guardada localmente.
-- Abre el board filtrado por tu etiqueta.
-- Si defines `JIRA_ISSUE_KEY`, comenta directamente en ese ticket.
-- Si no defines `JIRA_ISSUE_KEY`, toma el primer ticket visible del board y comenta ahi.
-- Evita duplicar el comentario del dia si encuentra la marca `[YYYY-MM-DD]`.
+- Abre Chromium en la pagina de login de Atenea.
+- Te permite iniciar sesion manualmente.
+- Guarda la sesion autenticada en un archivo local.
+- Reutiliza esa sesion para validar que el acceso siga activo.
 
 ## Instalacion
 
@@ -18,47 +17,60 @@ cp .env.example .env
 npm install
 ```
 
-## Primer uso
+## Configuracion
 
-Guarda una sesion autenticada:
+Edita `Desktop/jira-comentario-diario/.env` con estos valores:
+
+```bash
+ATENEA_LOGIN_URL=https://ateneaconocimientos.com/
+ATENEA_EXPECTED_URL=https://ateneaconocimientos.com/
+ATENEA_AUTH_FILE=.auth/atenea.json
+ATENEA_HEADED=false
+```
+
+- `ATENEA_LOGIN_URL`: pagina que se abrira para iniciar sesion.
+- `ATENEA_EXPECTED_URL`: pagina que se usara para validar la sesion guardada.
+- `ATENEA_AUTH_FILE`: archivo donde se guardara la sesion.
+- `ATENEA_HEADED=true`: muestra el navegador tambien en la validacion.
+
+## Guardar sesion
+
+```bash
+npm run login
+```
+
+Flujo esperado:
+
+- Se abrira Chromium en `ATENEA_LOGIN_URL`.
+- Inicias sesion manualmente.
+- Cuando ya estes dentro de Atenea, vuelves a la terminal y presionas `Enter`.
+- El script guarda la sesion en `.auth/atenea.json`.
+
+Tambien puedes usar:
 
 ```bash
 npm run auth
 ```
 
-Se abrira Chromium. Inicia sesion en Atlassian y, cuando veas el board correcto, vuelve a la terminal y presiona `Enter`.
-
-## Publicar comentario
+## Validar sesion
 
 ```bash
-npm run comment
+npm run verify
 ```
 
-## Plantilla del comentario
+Este comando:
 
-Edita [templates/daily-comment.md](/Users/mari/Desktop/jira-comentario-diario/templates/daily-comment.md:1).
+- carga `.auth/atenea.json`
+- abre `ATENEA_EXPECTED_URL`
+- reutiliza la sesion guardada
+- imprime la URL actual para ayudarte a confirmar que la sesion funciona
 
-Placeholders disponibles:
+## Jenkins
 
-- `{date}` ejemplo `06/07/2026`
-- `{iso_date}` ejemplo `2026-07-06`
-- `{weekday}` ejemplo `lunes`
-- `{month}` ejemplo `julio`
-- `{year}` ejemplo `2026`
-- `{board_url}` la URL configurada
-
-## Variables importantes
-
-- `JIRA_ISSUE_KEY`: si quieres comentar siempre en un ticket fijo.
-- `JIRA_HEADED=true`: muestra el navegador al publicar el comentario.
-- `JIRA_ALLOW_DUPLICATE=true`: permite publicar aunque ya exista la marca del dia.
-
-## Automatizar diario
-
-En macOS puedes programarlo con `cron` o `launchd`. Ejemplo simple con `cron`:
+El `Jenkinsfile` actual instala dependencias y ejecuta:
 
 ```bash
-30 9 * * 1-5 cd /Users/mari/Desktop/jira-comentario-diario && /opt/homebrew/bin/npm run comment >> /Users/mari/Desktop/jira-comentario-diario/cron.log 2>&1
+npm run verify
 ```
 
-Antes de programarlo, valida manualmente que el flujo publica el comentario en el ticket correcto.
+Para que Jenkins pueda validar la sesion, el servidor debe tener disponible el archivo configurado en `ATENEA_AUTH_FILE`.

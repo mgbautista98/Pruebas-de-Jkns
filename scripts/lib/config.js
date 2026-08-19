@@ -48,28 +48,19 @@ function loadConfig() {
   const projectRoot = path.resolve(__dirname, "..", "..");
   loadEnvFile(projectRoot);
 
-  const boardUrl = required("JIRA_BOARD_URL");
-  const projectKey = process.env.JIRA_PROJECT_KEY || "TESTQA";
+  const loginUrl = required("ATENEA_LOGIN_URL");
+  const expectedUrl = process.env.ATENEA_EXPECTED_URL || loginUrl;
   const authFile = path.resolve(
     projectRoot,
-    process.env.JIRA_AUTH_FILE || ".auth/jira.json"
-  );
-  const templatePath = path.resolve(
-    projectRoot,
-    process.env.JIRA_COMMENT_TEMPLATE || "templates/daily-comment.md"
+    process.env.ATENEA_AUTH_FILE || ".auth/atenea.json"
   );
 
   return {
     projectRoot,
-    boardUrl,
-    projectKey,
-    issueKey: process.env.JIRA_ISSUE_KEY || "",
+    loginUrl,
+    expectedUrl,
     authFile,
-    templatePath,
-    locale: process.env.JIRA_LOCALE || "es-MX",
-    timezone: process.env.JIRA_TIMEZONE || "America/Mexico_City",
-    headed: parseBoolean(process.env.JIRA_HEADED, false),
-    allowDuplicate: parseBoolean(process.env.JIRA_ALLOW_DUPLICATE, false)
+    headed: parseBoolean(process.env.ATENEA_HEADED, false)
   };
 }
 
