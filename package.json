@@ -7,7 +7,8 @@
   "scripts": {
     "auth": "node scripts/save-session.js",
     "login": "node scripts/save-session.js",
-    "verify": "node scripts/verify-session.js"
+    "verify": "node scripts/verify-session.js",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@playwright/test": "^1.58.2"

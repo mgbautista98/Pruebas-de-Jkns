@@ -26,12 +26,16 @@ ATENEA_LOGIN_URL=https://ateneaconocimientos.com/
 ATENEA_EXPECTED_URL=https://ateneaconocimientos.com/
 ATENEA_AUTH_FILE=.auth/atenea.json
 ATENEA_HEADED=false
+ATENEA_USERNAME=tu-correo@ejemplo.com
+ATENEA_PASSWORD=tu-contrasena
 ```
 
 - `ATENEA_LOGIN_URL`: pagina que se abrira para iniciar sesion.
 - `ATENEA_EXPECTED_URL`: pagina que se usara para validar la sesion guardada.
 - `ATENEA_AUTH_FILE`: archivo donde se guardara la sesion.
 - `ATENEA_HEADED=true`: muestra el navegador tambien en la validacion.
+- `ATENEA_USERNAME` y `ATENEA_PASSWORD`: opcionales. Si los defines, el script
+  abre el formulario, escribe las credenciales y pulsa **INGRESAR**.
 
 ## Guardar sesion
 
@@ -42,9 +46,13 @@ npm run login
 Flujo esperado:
 
 - Se abrira Chromium en `ATENEA_LOGIN_URL`.
-- Inicias sesion manualmente.
+- Si configuraste `ATENEA_USERNAME` y `ATENEA_PASSWORD`, el inicio se envia
+  automaticamente. Si no, inicias sesion manualmente.
 - Cuando ya estes dentro de Atenea, vuelves a la terminal y presionas `Enter`.
 - El script guarda la sesion en `.auth/atenea.json`.
+
+Si Atenea solicita un segundo factor, CAPTCHA o muestra un mensaje de error,
+resuelvelo en el navegador antes de presionar `Enter`.
 
 Tambien puedes usar:
 

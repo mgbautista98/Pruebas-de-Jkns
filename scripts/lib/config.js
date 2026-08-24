@@ -60,6 +60,8 @@ function loadConfig() {
     loginUrl,
     expectedUrl,
     authFile,
+    username: process.env.ATENEA_USERNAME || "",
+    password: process.env.ATENEA_PASSWORD || "",
     headed: parseBoolean(process.env.ATENEA_HEADED, false)
   };
 }
