@@ -50,6 +50,7 @@ function loadConfig() {
 
   const loginUrl = required("ATENEA_LOGIN_URL");
   const expectedUrl = process.env.ATENEA_EXPECTED_URL || loginUrl;
+  const signupUrl = process.env.ATENEA_SIGNUP_URL || new URL("/signup", loginUrl).href;
   const authFile = path.resolve(
     projectRoot,
     process.env.ATENEA_AUTH_FILE || ".auth/atenea.json"
@@ -59,9 +60,15 @@ function loadConfig() {
     projectRoot,
     loginUrl,
     expectedUrl,
+    signupUrl,
     authFile,
     username: process.env.ATENEA_USERNAME || "",
     password: process.env.ATENEA_PASSWORD || "",
+    signupName: process.env.ATENEA_SIGNUP_NAME || "",
+    signupLastName: process.env.ATENEA_SIGNUP_LASTNAME || "",
+    signupEmail: process.env.ATENEA_SIGNUP_EMAIL || "",
+    signupPassword: process.env.ATENEA_SIGNUP_PASSWORD || "",
+    runSignup: parseBoolean(process.env.ATENEA_RUN_SIGNUP, false),
     headed: parseBoolean(process.env.ATENEA_HEADED, false)
   };
 }
