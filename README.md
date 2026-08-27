@@ -17,6 +17,10 @@ cp .env.example .env
 npm install
 ```
 
+Al instalar dependencias se configura Husky. Antes de cada `git commit` se
+ejecuta `npm run check:syntax`, que valida la sintaxis de los archivos
+JavaScript sin abrir el navegador ni crear cuentas.
+
 ## Configuracion
 
 Edita `Desktop/jira-comentario-diario/.env` con estos valores:

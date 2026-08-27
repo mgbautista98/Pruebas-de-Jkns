@@ -8,9 +8,14 @@
     "auth": "node scripts/save-session.js",
     "login": "node scripts/save-session.js",
     "verify": "node scripts/verify-session.js",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "check:syntax": "node --check scripts/lib/config.js && node --check scripts/save-session.js && node --check scripts/verify-session.js && node --check playwright.config.js && node --check tests/pages/AteneaLoginPage.js && node --check tests/pages/AteneaSignupPage.js && node --check tests/pages/HeaderNavigationPage.js && node --check tests/pages/StudentAccountMenuPage.js && node --check tests/e2e/auth/login.spec.js && node --check tests/e2e/auth/signup.spec.js && node --check tests/e2e/header/navigation.spec.js && node --check tests/e2e/session/session.spec.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@playwright/test": "^1.58.2"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7"
   }
 }
